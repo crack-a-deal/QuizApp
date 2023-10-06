@@ -1,0 +1,26 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:QuizApp.View"
+        xmlns:QuizApp="clr-namespace:QuizApp"
+        mc:Ignorable="d"
+        Title="Создание теста" Height="550" Width="800">
+    <Grid>
+        <ScrollViewer />
+        <Label Content="Название теста" HorizontalAlignment="Left" Margin="34,24,0,0" FontSize="24" VerticalAlignment="Top"/>
+        <TextBox Text="{Binding QuizName, Mode=TwoWay}" HorizontalAlignment="Left" Margin="216,26,0,0" TextWrapping="Wrap" Width="549" VerticalAlignment="Top" Height="38" FontSize="24"/>
+        <CheckBox x:Name="canSkipBox" Content="Можно пропускать вопросы" Margin="34,67,0,0" IsChecked="True" FontSize="18" VerticalAlignment="Top" HorizontalAlignment="Left" Height="25" Visibility="Hidden"/>
+        <Label Content="Вопрос" HorizontalAlignment="Left" Margin="34,111,0,0" VerticalAlignment="Top" FontSize="20" Width="89"/>
+        <TextBox Text="{Binding QuestionText, Mode=TwoWay}" HorizontalAlignment="Left" Margin="128,115,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="637" FontSize="20"/>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="34,160,35,90" Background="WhiteSmoke">
+        </ScrollViewer>
+
+        <Button Content="Добавить ответ" Command="{Binding AddNewOption}" HorizontalAlignment="Left" Margin="34,0,0,58" VerticalAlignment="Bottom" Height="27" Width="137"/>
+
+        <Button Content="Добавить вопрос" HorizontalAlignment="Left" Margin="475,0,0,10" VerticalAlignment="Bottom" Height="46" Width="137"/>
+        <Button Content="Завершить" HorizontalAlignment="Left" Margin="617,0,0,10" VerticalAlignment="Bottom" Height="46" Width="148"/>
+    </Grid>
+</Window>
