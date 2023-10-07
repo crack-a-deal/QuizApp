@@ -99,6 +99,23 @@ namespace QuizApp.ViewModel
             OptionControlCollection.Add(newOption);
         }
 
+        // Удалить все варианты ответа
+        private RelayCommand clearAllOption;
+        public RelayCommand ClearAllOption
+        {
+            get
+            {
+                return clearAllOption ?? new RelayCommand(obj =>
+                {
+                    ClearAllOptionControl();
+                });
+            }
+        }
+        private void ClearAllOptionControl()
+        {
+            OptionControlCollection.Clear();
+        }
+
 
         // Добавление вопроса
         private RelayCommand addQuestion;

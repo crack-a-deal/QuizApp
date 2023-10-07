@@ -1,0 +1,39 @@
+﻿{
+  "Name": "Математика",
+  "Questions": [
+    {
+      "Text": "Сколько будет 5 плюс 3?",
+      "Options": [
+        "5",
+        "12",
+        "8"
+      ],
+      "CorrectOptionIndices": [
+        3
+      ]
+    },
+    {
+      "Text": "Если у вас есть 4 яблока, и вы съели 2, сколько яблок осталось?",
+      "Options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "CorrectOptionIndices": [
+        2
+      ]
+    },
+    {
+      "Text": "Сколько будет 8 умножить на 2?",
+      "Options": [
+        "16",
+        "15"
+      ],
+      "CorrectOptionIndices": [
+        1
+      ]
+    }
+  ],
+  "CanSkipQuestion": true
+}

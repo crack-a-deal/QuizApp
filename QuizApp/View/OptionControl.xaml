@@ -7,10 +7,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="500">
     <Grid>
-        <StackPanel Height="50" Width="500" Orientation="Horizontal">
-            <CheckBox IsChecked="{Binding IsCorrect, Mode=TwoWay}" Content="{Binding Index, Mode=TwoWay}" HorizontalAlignment="Left" Width="100" VerticalAlignment="Center"/>
-            <TextBox Text="{Binding Answer, Mode=TwoWay}" Width="300" FontSize="20" />
-            <Button Command="{Binding AddImage}" Content="img" Width="50" HorizontalAlignment="Right" Margin="30,0,0,0" />
+        <StackPanel Height="50" Width="500" Orientation="Horizontal" Margin="5,5,5,5">
+            <CheckBox IsChecked="{Binding IsCorrect, Mode=TwoWay}" Content="{Binding Index, Mode=TwoWay}" HorizontalAlignment="Left" Width="100" VerticalAlignment="Center" FontSize="20" VerticalContentAlignment="Center"/>
+            <TextBox Text="{Binding Answer, Mode=TwoWay}" Width="300" FontSize="24" VerticalContentAlignment="Center" />
+            <Button Command="{Binding AddImage}" Content="img" Width="50" HorizontalAlignment="Right" Margin="30,0,0,0" Visibility="Hidden" IsEnabled="False" />
         </StackPanel>
     </Grid>
 </UserControl>

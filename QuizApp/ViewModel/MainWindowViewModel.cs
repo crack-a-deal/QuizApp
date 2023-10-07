@@ -9,18 +9,8 @@ using System.Windows;
 
 namespace QuizApp.ViewModel
 {
-    internal class MainWindowViewModel : INotifyPropertyChanged
+    public class MainWindowViewModel
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged(String propertyName)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
         private RelayCommand openCreateQuiz;
         public RelayCommand OpenCreateQuiz
         {
@@ -53,7 +43,7 @@ namespace QuizApp.ViewModel
         }
         private void OpenQuizMethod()
         {
-            View.Quiz newQuizWindow=new View.Quiz();
+            View.Quiz newQuizWindow = new View.Quiz();
             newQuizWindow.DataContext = new QuizViewModel(LoadQuizFromJson());
             OpenWindow(newQuizWindow);
         }

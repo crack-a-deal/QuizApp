@@ -24,7 +24,8 @@
             </ItemsControl>
         </ScrollViewer>
 
-        <Button Content="Добавить вариант ответа" Command="{Binding AddNewOption}" HorizontalAlignment="Left" Margin="34,0,0,58" VerticalAlignment="Bottom" Height="27" Width="187"/>
+        <Button Content="Добавить вариант ответа" Command="{Binding AddNewOption}" HorizontalAlignment="Left" Margin="34,0,0,58" VerticalAlignment="Bottom" Height="27" Width="162"/>
+        <Button Content="Удалить варианты" Command="{Binding ClearAllOption}" HorizontalAlignment="Left" Margin="216,0,0,58" VerticalAlignment="Bottom" Height="27" Width="162"/>
 
         <Button Content="Добавить вопрос" Command="{Binding AddQuestion}" HorizontalAlignment="Left" Margin="475,0,0,10" VerticalAlignment="Bottom" Height="46" Width="137"/>
         <Button Content="Завершить" Command="{Binding SaveQuiz}" HorizontalAlignment="Left" Margin="617,0,0,10" VerticalAlignment="Bottom" Height="46" Width="148"/>

@@ -1,14 +1,7 @@
-﻿using Microsoft.Win32;
-using QuizApp.Model;
-using System;
+﻿using QuizApp.Model;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -17,6 +10,7 @@ namespace QuizApp.ViewModel
 {
     public class QuizViewModel : INotifyPropertyChanged
     {
+        private int correctAnswers = 0;
         private int currentIndex = 0;
         public int CurrentIndex
         {
@@ -84,17 +78,41 @@ namespace QuizApp.ViewModel
             get { return $"{currentIndex+1} из {Quiz.Questions.Count}"; }
         }
 
-        private string _selectedRadioButtonText;
-        public string SelectedRadioButtonText
+
+        private int selectedRadioButtonIndex=-1;
+        public int SelectedRadioButtonIndex
         {
-            get { return _selectedRadioButtonText; }
+            get { return selectedRadioButtonIndex; }
             set
             {
-                if (_selectedRadioButtonText != value)
+                if (selectedRadioButtonIndex != value)
                 {
-                    _selectedRadioButtonText = value;
-                    OnPropertyChanged(nameof(SelectedRadioButtonText));
+                    selectedRadioButtonIndex = value;
+                    OnPropertyChanged(nameof(SelectedRadioButtonIndex));
                 }
+            }
+        }
+
+        private RelayCommand setSelectedRadioButtonCommand;
+        public ICommand SetSelectedRadioButtonCommand
+        {
+            get
+            {
+                if (setSelectedRadioButtonCommand == null)
+                {
+                    setSelectedRadioButtonCommand = new RelayCommand(SetSelectedRadioButton);
+                }
+                return setSelectedRadioButtonCommand;
+            }
+        }
+
+        private void SetSelectedRadioButton(object parameter)
+        {
+            var radioButton = parameter as RadioButton;
+            if (radioButton != null)
+            {
+                int selectedIndex = Options.IndexOf(radioButton.Content.ToString());
+                SelectedRadioButtonIndex = selectedIndex;
             }
         }
 
@@ -112,18 +130,19 @@ namespace QuizApp.ViewModel
         }
         private void LoadNextQuestion()
         {
+            CheckCorrectAnswer();
             if (CurrentIndex == Quiz.Questions.Count-1)
             {
                 MessageBoxResult result = MessageBox.Show("Вы уверены, что хотите завершить тест?", "Окончить тест", MessageBoxButton.YesNo);
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    string message = $"Правильных ответов: {5}\nНеправильных ответов: {5}";
+                    string message = $"Правильных ответов: {correctAnswers}\nНеправильных ответов: {Questions.Count-correctAnswers}";
                     MessageBox.Show(message, "Результаты теста", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                    View.MainWindow main = new View.MainWindow();
-                    main.Show();
-                    Application.Current.Windows[0].Close();
+                    Application.Current.MainWindow.Close();
+                    View.MainWindow mainWindow = new View.MainWindow();
+                    mainWindow.Show();
                     return;
                 }
                 else
@@ -131,27 +150,18 @@ namespace QuizApp.ViewModel
                     return;
                 }
             }
-            CheckCorrectAnswer();
             CurrentIndex++;
         }
         private void CheckCorrectAnswer()
         {
-            //MessageBox.Show(SelectedIndex);
-            foreach (var item in Options)
+            if(SelectedRadioButtonIndex == -1)
             {
-                
+                MessageBox.Show("Выберите вариант ответа");
+                return;
             }
-        }
-        private RelayCommand checkAnswerCommand;
-        public ICommand CheckAnswerCommand
-        {
-            get
+            if(SelectedRadioButtonIndex+1 == Questions[CurrentIndex].CorrectOptionIndices[0])
             {
-                if (checkAnswerCommand == null)
-                {
-                    checkAnswerCommand = new RelayCommand(param => CheckCorrectAnswer());
-                }
-                return checkAnswerCommand;
+                correctAnswers++;
             }
         }
 
