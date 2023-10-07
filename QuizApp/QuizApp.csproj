@@ -83,9 +83,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\RadioButtonTextConverter.cs" />
     <Compile Include="ViewModel\OptionControlViewModel.cs" />
     <Compile Include="ViewModel\QuizViewModel.cs" />
-    <Compile Include="ViewModel\RadioButtonViewModel.cs" />
     <Compile Include="View\CreateQuiz.xaml.cs">
       <DependentUpon>CreateQuiz.xaml</DependentUpon>
     </Compile>
