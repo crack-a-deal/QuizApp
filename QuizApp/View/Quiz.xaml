@@ -12,8 +12,8 @@
         <StackPanel x:Name="optionsStackPanel" Opacity="0.505" Height="200" Margin="30,120,77,114">
             <RadioButton Content="RadioButton" FontSize="24" VerticalContentAlignment="Center"/>
         </StackPanel>
-        <Button x:Name="lastQuestion" Content="Назад" HorizontalAlignment="Left" Margin="592,487,0,0" VerticalAlignment="Top" Height="37" Width="90" Click="LoadNextQuestion"/>
-        <Button x:Name="nextQuestion" Content="Далее" HorizontalAlignment="Left" Margin="700,487,0,0" VerticalAlignment="Top" Height="37" Width="90" Click="LoadNextQuestion"/>
+        <Button x:Name="lastQuestion" Content="Назад" HorizontalAlignment="Left" Margin="592,487,0,0" VerticalAlignment="Top" Height="37" Width="90"/>
+        <Button x:Name="nextQuestion" Content="Далее" HorizontalAlignment="Left" Margin="700,487,0,0" VerticalAlignment="Top" Height="37" Width="90"/>
         <Label x:Name="testlabel" Content="Label" HorizontalAlignment="Left" Margin="30,488,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.51,-0.268"/>
         <Label x:Name="questionsCountLabel" Content="Вопрос 0 из 0" HorizontalAlignment="Left" Margin="665,20,0,0" VerticalAlignment="Top" FontSize="16" Width="111"/>
     </Grid>

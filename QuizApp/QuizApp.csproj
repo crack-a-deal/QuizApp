@@ -83,6 +83,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModel\OptionControlViewModel.cs" />
+    <Compile Include="ViewModel\QuizViewModel.cs" />
+    <Compile Include="ViewModel\RadioButtonViewModel.cs" />
+    <Compile Include="View\CreateQuiz.xaml.cs">
+      <DependentUpon>CreateQuiz.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\OptionControl.xaml.cs">
       <DependentUpon>OptionControl.xaml</DependentUpon>
     </Compile>
@@ -101,15 +107,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Model\OptionControl.cs" />
+    <Compile Include="Model\AnswerOption.cs" />
     <Compile Include="Model\Question.cs" />
     <Compile Include="Model\Quiz.cs" />
     <Compile Include="Model\RelayCommand.cs" />
     <Compile Include="ViewModel\CreateQuizViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
-    <Compile Include="View\CreateQuiz.xaml.cs">
-      <DependentUpon>CreateQuiz.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

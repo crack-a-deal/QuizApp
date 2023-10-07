@@ -1,12 +1,11 @@
-﻿<Window
+﻿<Window x:Class="QuizApp.View.CreateQuiz"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:QuizApp.View"
-        xmlns:QuizApp="clr-namespace:QuizApp"
         mc:Ignorable="d"
-        Title="Создание теста" Height="550" Width="800">
+        Title="CreateQuiz" Height="550" Width="800">
     <Grid>
         <ScrollViewer />
         <Label Content="Название теста" HorizontalAlignment="Left" Margin="34,24,0,0" FontSize="24" VerticalAlignment="Top"/>
@@ -15,12 +14,19 @@
         <Label Content="Вопрос" HorizontalAlignment="Left" Margin="34,111,0,0" VerticalAlignment="Top" FontSize="20" Width="89"/>
         <TextBox Text="{Binding QuestionText, Mode=TwoWay}" HorizontalAlignment="Left" Margin="128,115,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="637" FontSize="20"/>
 
-        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="34,160,35,90" Background="WhiteSmoke">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="34,160,188,90" Background="WhiteSmoke">
+            <ItemsControl ItemsSource="{Binding OptionControlCollection}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <local:OptionControl />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </ScrollViewer>
 
-        <Button Content="Добавить ответ" Command="{Binding AddNewOption}" HorizontalAlignment="Left" Margin="34,0,0,58" VerticalAlignment="Bottom" Height="27" Width="137"/>
+        <Button Content="Добавить вариант ответа" Command="{Binding AddNewOption}" HorizontalAlignment="Left" Margin="34,0,0,58" VerticalAlignment="Bottom" Height="27" Width="187"/>
 
-        <Button Content="Добавить вопрос" HorizontalAlignment="Left" Margin="475,0,0,10" VerticalAlignment="Bottom" Height="46" Width="137"/>
-        <Button Content="Завершить" HorizontalAlignment="Left" Margin="617,0,0,10" VerticalAlignment="Bottom" Height="46" Width="148"/>
+        <Button Content="Добавить вопрос" Command="{Binding AddQuestion}" HorizontalAlignment="Left" Margin="475,0,0,10" VerticalAlignment="Bottom" Height="46" Width="137"/>
+        <Button Content="Завершить" Command="{Binding SaveQuiz}" HorizontalAlignment="Left" Margin="617,0,0,10" VerticalAlignment="Bottom" Height="46" Width="148"/>
     </Grid>
 </Window>

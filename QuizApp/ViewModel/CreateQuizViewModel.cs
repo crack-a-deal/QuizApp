@@ -1,22 +1,35 @@
 ﻿using QuizApp.Model;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Windows.Controls;
 using System.Windows;
+using System.Collections.ObjectModel;
+using System.Collections.Generic;
+using System;
 using Microsoft.Win32;
-using System.Text;
 using System.Text.Json;
 using System.Text.Encodings.Web;
 using System.IO;
-using System.Collections.ObjectModel;
+using System.Text;
+
 
 namespace QuizApp.ViewModel
 {
     internal class CreateQuizViewModel:INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        private List<Question> questions = new List<Question>();
 
+        private Question questionModel = new Question();
+        public Question Question
+        {
+            get { return questionModel; }
+            set
+            {
+                questionModel = value;
+                OnPropertyChanged(nameof(Question));
+            }
+        }
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)
@@ -41,23 +54,32 @@ namespace QuizApp.ViewModel
             }
         }
 
-        private string questionText;
         public string QuestionText
         {
-            get { return questionText; }
+            get { return questionModel.Text; }
             set
             {
-                if (questionText != value)
+                if (questionModel.Text != value)
                 {
-                    questionText = value;
+                    questionModel.Text = value;
                     OnPropertyChanged(nameof(QuestionText));
                 }
             }
         }
 
-        public ObservableCollection<OptionControl> Options { get; set; }
+        private ObservableCollection<OptionControlViewModel> optionControlCollection = new ObservableCollection<OptionControlViewModel>();
+        public ObservableCollection<OptionControlViewModel> OptionControlCollection
+        {
+            get { return optionControlCollection; }
+            set
+            {
+                optionControlCollection = value;
+                OnPropertyChanged(nameof(OptionControlCollection));
+            }
+        }
         #endregion
 
+        // Добавление варианта ответа
         private RelayCommand addNewOption;
         public RelayCommand AddNewOption
         {
@@ -65,85 +87,81 @@ namespace QuizApp.ViewModel
             {
                 return addNewOption ?? new RelayCommand(obj =>
                 {
-                    AddNewOptionMethod();
+                    AddOptionControl();
                 });
             }
         }
-
-        private void CreateNewAnswerField()
+        private void AddOptionControl()
         {
-            StackPanel newStackPanel = new StackPanel();
-            newStackPanel.Orientation = Orientation.Horizontal;
+            OptionControlViewModel newOption = new OptionControlViewModel();
+            newOption.Index=(OptionControlCollection.Count + 1).ToString();
 
-            CheckBox indexLabel = new CheckBox();
-            //indexLabel.Content = answersStackPanel.Children.Count + 1;
-
-            TextBox newAnswerTextBox = new TextBox();
-            newAnswerTextBox.Width = 300;
-            newAnswerTextBox.Margin = new Thickness(5);
-            newAnswerTextBox.HorizontalAlignment = HorizontalAlignment.Left;
-            newAnswerTextBox.FontSize = 18;
-
-            Button addImage = new Button();
-            addImage.Content = "Добавить изображение";
-
-            newStackPanel.Children.Add(indexLabel);
-            newStackPanel.Children.Add(newAnswerTextBox);
-            newStackPanel.Children.Add(addImage);
-
-            //answersStackPanel.Children.Add(newStackPanel);
+            OptionControlCollection.Add(newOption);
         }
 
-        private void AddNewOptionMethod()
+
+        // Добавление вопроса
+        private RelayCommand addQuestion;
+        public RelayCommand AddQuestion
+        {
+            get
+            {
+                return addQuestion ?? new RelayCommand(obj =>
+                {
+                    AddQuestionMethod();
+                });
+            }
+        }
+        private void AddQuestionMethod()
         {
             // Проверка на пустые поля
-            if (QuestionText == "")
+            if (QuestionText == "" || QuestionText == null)
             {
                 MessageBox.Show("Введите вопрос");
                 return;
             }
-            //if (answersStackPanel.Children.Count <= 1)
-            //{
-            //    MessageBox.Show("Вариантов ответа должно быть больше двух");
-            //    return;
-            //}
+            if (optionControlCollection.Count <= 1)
+            {
+                MessageBox.Show("Вариантов ответа должно быть больше двух");
+                return;
+            }
+            List<string> options = new List<string>();
+            List<int> correctOptionIndices = new List<int>();
+            foreach (var  option in OptionControlCollection)
+            {
+                //Проверка на пустые поля
+                if (option.Answer == "")
+                {
+                    MessageBox.Show("Ответ не может быть пустым");
+                    return;
+                }
+                options.Add(option.Answer);
+                if (option.IsCorrect)
+                {
+                    correctOptionIndices.Add(Convert.ToInt16(option.Index));
+                }
+            }
 
-            //List<string> options = new List<string>();
-            //List<int> correctOptionIndices = new List<int>();
+            if (correctOptionIndices.Count < 1)
+            {
+                MessageBox.Show("Правильных вариантов ответа должно быть больше одного");
+                return;
+            }
 
-            //// Добавить варианты ответа
-            //foreach (StackPanel stackPanel in answersStackPanel.Children)
-            //{
-            //    TextBox textBox = stackPanel.Children.OfType<TextBox>().FirstOrDefault();
-            //    if (textBox.Text == "")
-            //    {
-            //        MessageBox.Show("Ответ не может быть пустым");
-            //        return;
-            //    }
-            //    options.Add(textBox.Text);
-            //}
-
-            //// Добавить индексы правильных ответов
-            //foreach (StackPanel stackPanel in answersStackPanel.Children)
-            //{
-            //    CheckBox checkBox = stackPanel.Children.OfType<CheckBox>().FirstOrDefault();
-            //    if (checkBox.IsChecked == true)
-            //    {
-            //        correctOptionIndices.Add((int)checkBox.Content);
-            //    }
-            //}
-
-            //if (correctOptionIndices.Count < 1)
-            //{
-            //    MessageBox.Show("Правильных вариантов ответа должно быть больше одного");
-            //    return;
-            //}
-
-            //questions.Add(new Question(questionText.Text, options, correctOptionIndices));
-
-            //ClearQuestionFields();
+            Question newQuestion = new Question(QuestionText,options,correctOptionIndices);
+            questions.Add(newQuestion);
+            ClearFiels();
         }
 
+        // Очищает поля для ввода данных
+        private void ClearFiels()
+        {
+            QuestionText = "";
+            optionControlCollection.Clear();
+        }
+
+
+        // Сохраняет тест в json файл 
         private RelayCommand saveQuiz;
         public RelayCommand SaveQuiz
         {
@@ -155,29 +173,40 @@ namespace QuizApp.ViewModel
                 });
             }
         }
-
         private void SaveQuizMethod()
         {
-            // Проверка на пустые поля
+            //Проверка на пустые поля
 
-            //TODO Проверка на пустые поля
+            if(QuizName == "" || QuizName == null)
+            {
+                MessageBox.Show("Введите название теста");
+                return;
+            }
+            if(questions.Count < 1) {
+                MessageBox.Show("Вопросов в тесте должно быть больше одного");
+                return;
+            }
 
-            //Quiz newQuiz = new Quiz(quizText.Text, questions, (bool)canSkipBox.IsChecked);
+            Quiz newQuiz = new Quiz(QuizName, questions, true);
 
-            //SaveFileDialog saveFileDialog = new SaveFileDialog();
-            //saveFileDialog.Filter = "Текстовые файлы (*.json)|*.json";
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Текстовые файлы (*.json)|*.json";
 
-            //if (saveFileDialog.ShowDialog() == true)
-            //{
-            //    string filePath = saveFileDialog.FileName;
-            //    string quiz = JsonSerializer.Serialize(newQuiz, new JsonSerializerOptions
-            //    {
-            //        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
-            //        WriteIndented = true
-            //    });
-            //    File.WriteAllText(filePath, quiz, Encoding.UTF8);
-            //    MessageBox.Show("Файл сохранен");
-            //}
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                string filePath = saveFileDialog.FileName;
+                string quiz = JsonSerializer.Serialize(newQuiz, new JsonSerializerOptions
+                {
+                    Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+                    WriteIndented = true
+                });
+                File.WriteAllText(filePath, quiz, Encoding.UTF8);
+                MessageBox.Show("Файл сохранен");
+            }
+
+            View.MainWindow main = new View.MainWindow();
+            main.Show();
+            Application.Current.MainWindow.Close();
         }
     }
 }
