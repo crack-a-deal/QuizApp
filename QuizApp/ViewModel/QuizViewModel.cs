@@ -140,8 +140,8 @@ namespace QuizApp.ViewModel
                     string message = $"Правильных ответов: {correctAnswers}\nНеправильных ответов: {Questions.Count-correctAnswers}";
                     MessageBox.Show(message, "Результаты теста", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                    Application.Current.MainWindow.Close();
                     View.MainWindow mainWindow = new View.MainWindow();
+                    Application.Current.Windows[0].Close();
                     mainWindow.Show();
                     return;
                 }

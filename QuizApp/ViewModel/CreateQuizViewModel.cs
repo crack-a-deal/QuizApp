@@ -221,9 +221,9 @@ namespace QuizApp.ViewModel
                 MessageBox.Show("Файл сохранен");
             }
 
-            View.MainWindow main = new View.MainWindow();
-            main.Show();
-            Application.Current.MainWindow.Close();
+            View.MainWindow mainWindow = new View.MainWindow();
+            Application.Current.Windows[0].Close();
+            mainWindow.Show();
         }
     }
 }
