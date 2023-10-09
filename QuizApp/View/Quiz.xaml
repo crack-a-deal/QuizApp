@@ -10,17 +10,19 @@
         <Label Content="{Binding QuizName}" HorizontalAlignment="Left" Margin="25,20,0,0" VerticalAlignment="Top" FontSize="28"/>
         <TextBlock Text="{Binding QuestionText}" HorizontalAlignment="Left" Margin="30,67,0,0" VerticalAlignment="Top" FontSize="26" Width="736" Height="94" TextWrapping="WrapWithOverflow"/>
         <Label Content="{Binding QuestionIndex}" HorizontalAlignment="Left" Margin="665,20,0,0" VerticalAlignment="Top" FontSize="16" Width="111"/>
-        <ItemsControl ItemsSource="{Binding Options}"  Margin="30,161,34,74">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <RadioButton Content="{Binding}" GroupName="AnswerGroup" FontSize="24"
+        <ScrollViewer Margin="30,161,34,74">
+            <ItemsControl ItemsSource="{Binding Options}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <RadioButton Content="{Binding}" GroupName="AnswerGroup" FontSize="24"
              IsChecked="{Binding IsSelected}"
              Command="{Binding DataContext.SetSelectedRadioButtonCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
              CommandParameter="{Binding RelativeSource={RelativeSource Self}}" VerticalContentAlignment="Center"/>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+        
         <Button Content="Назад" Command="{Binding LastQuestion}" HorizontalAlignment="Left" Margin="568,465,0,0" VerticalAlignment="Top" Height="37" Width="90"/>
         <Button Content="Далее" Command="{Binding NextQuestion}" HorizontalAlignment="Left" Margin="676,465,0,0" VerticalAlignment="Top" Height="37" Width="90"/>
     </Grid>
